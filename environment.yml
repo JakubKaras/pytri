@@ -1,0 +1,5 @@
+name: pytri
+channels:
+  - defaults
+dependencies:
+  - numpy
