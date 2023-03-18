@@ -1,6 +1,10 @@
 import pygame as pg
 from geometric_objects import Triangulation, Point
 
+def draw_text(window, text, font, text_col, x, y):
+    img = font.render(text, True, text_col)
+    window.blit(img, (x, y))
+
 def draw_points(window, points: list[Point], point_colour, point_radius):
     for point in points:
         pg.draw.circle(window, point_colour, point.to_tuple(), point_radius)
