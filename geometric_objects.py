@@ -25,6 +25,7 @@ class Point:
     def to_tuple(self):
         return self.x, self.y
 
+
 @dataclass
 class Triangle:
     point_index1: int
@@ -33,6 +34,7 @@ class Triangle:
 
     def to_list(self):
         return [self.point_index1, self.point_index2, self.point_index3]
+
 
 @dataclass
 class Triangulation:
@@ -53,6 +55,7 @@ class Triangulation:
                 min_distance = distance
         return min_distance
 
+
 def distance_point_to_point(a: Point, b: Point):
     return np.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2)
 
@@ -66,6 +69,7 @@ def compute_triangulation(triangulation: Triangulation, triangulation_algorithm:
         return flipping_delauney_algorithm(triangulation)
     if triangulation_algorithm == AlgorithmEnum.INCREMENTAL:
         return incremental_delauney_algorithm(triangulation)
+    raise ValueError(f"{triangulation_algorithm} is not supported.")
 
 def incremental_delauney_algorithm(triangulation: Triangulation) -> list[Triangle]:
     logging.getLogger().info("Incremental triangulation algorithm is not implemented yet.")
