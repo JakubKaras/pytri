@@ -1,11 +1,11 @@
 import pygame as pg
 from geometric_objects import Triangulation, Point
 
-def draw_points(window, points: list[Point], point_colour = (90, 115, 230), point_radius = 5):
+def draw_points(window, points: list[Point], point_colour, point_radius):
     for point in points:
         pg.draw.circle(window, point_colour, point.to_tuple(), point_radius)
 
-def draw_lines(window, points: list[Point], line_colour = (100, 100, 90), line_width = 3):
+def draw_lines(window, points: list[Point], line_colour, line_width):
     for i in range(len(points) - 1):
         for j in range(i + 1, len(points)):
             pg.draw.line(window, line_colour, points[i].to_tuple(), points[j].to_tuple(), line_width)
