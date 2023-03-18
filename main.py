@@ -14,7 +14,10 @@ def main(window, config, algorithm_selection):
     window.fill(pg_menu.themes.THEME_BLUE.background_color)
     pg.display.set_caption("Delauney Triangulation")
     CLOCK = pg.time.Clock()
-    triangulation = Triangulation([Point(500, 500), Point(400, 400), Point(300, 600), Point(800, 200)], [Triangle(0, 2, 3), Triangle(0, 1, 3)])
+    if config['use_dummy_initial_triangulation']:
+        triangulation = Triangulation([Point(500, 500), Point(400, 400), Point(300, 600), Point(800, 200)], [Triangle(0, 2, 3), Triangle(0, 1, 3)])
+    else:
+        triangulation = Triangulation([], [])
 
     run = True
     while run:
