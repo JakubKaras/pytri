@@ -1,5 +1,5 @@
 import logging
-from data_classes import Triangulation, Point, Triangle, points_to_numpy_array
+from geometric_objects import Triangulation, Point, Triangle, points_to_numpy_array
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(format = '\n%(asctime)s %(module)s %(levelname)s: %(message)s', datefmt = '%I:%M:%S %p', level = logging.INFO)

@@ -1,5 +1,5 @@
 import pygame as pg
-from data_classes import Triangulation, Point
+from geometric_objects import Triangulation, Point
 
 def draw_points(window, points: list[Point], point_colour = (90, 115, 230), point_radius = 5):
     for point in points:
