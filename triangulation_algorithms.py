@@ -9,11 +9,14 @@ class AlgorithmEnum(enum.Enum):
     INCREMENTAL = 'Incremental'
 
 def add_point_to_triangulation(triangulation: Triangulation, point: Point, triangulation_algorithm: AlgorithmEnum, min_distance = 20):
+    new_points = triangulation.points.copy()
+    new_triangles = triangulation.triangles.copy()
     if triangulation.distance_point_to_triangulation(point) >= min_distance:
-        triangulation.points.append(point)
-        triangulation.point_triplets = compute_triangulation(triangulation, triangulation_algorithm)
+        new_points.append(point)
+        new_triangles = compute_triangles(Triangulation(new_points, new_triangles), triangulation_algorithm)
+    return Triangulation(new_points, new_triangles)
 
-def compute_triangulation(triangulation: Triangulation, triangulation_algorithm: AlgorithmEnum) -> list[Triangle]:
+def compute_triangles(triangulation: Triangulation, triangulation_algorithm: AlgorithmEnum) -> list[Triangle]:
     if len(triangulation.points) < 3:
         return []
     if len(triangulation.points) == 3:
@@ -40,9 +43,9 @@ def is_point_in_triangle(vertices: list[Point], checked_point: Point) -> bool:
     return area_abc == area_abd + area_acd + area_bcd
 
 def incremental_delauney_algorithm(triangulation: Triangulation) -> list[Triangle]:
-    logging.getLogger().info("Incremental triangulation algorithm is not implemented yet.")    
-    return triangulation.point_triplets
+    logging.getLogger().info("Incremental triangulation algorithm is not implemented yet.")
+    return triangulation.triangles
 
 def flipping_delauney_algorithm(triangulation: Triangulation) -> list[Triangle]:
     logging.getLogger().info("Flipping triangulation algorithm is not implemented yet.")
-    return triangulation.point_triplets
+    return triangulation.triangles
