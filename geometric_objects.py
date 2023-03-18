@@ -40,6 +40,9 @@ class Triangulation:
                 min_distance = distance
         return min_distance
 
+def triangle_area(vertices: list[Point]):
+    return abs((vertices[0].x * (vertices[1].y - vertices[2].y) + vertices[1].x * (vertices[2].y - vertices[0].y)
+                + vertices[2].x * (vertices[0].y - vertices[1].y)) / 2.0)
 
 def distance_point_to_point(a: Point, b: Point):
     return np.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2)
