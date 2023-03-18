@@ -1,9 +1,10 @@
 import pygame as pg
 import pygame_menu as pg_menu
-import enum
+import logging
 import json
 import path
-from geometric_objects import Triangulation, Point, Triangle, AlgorithmEnum
+from geometric_objects import Triangulation, Point, Triangle
+from triangulation_algorithms import AlgorithmEnum, add_point_to_triangulation
 from visualization import draw_triangles, draw_text
 
 def set_algorithm(algorithm_selection, selection_id):
@@ -27,7 +28,7 @@ def main(window, config, algorithm_selection):
             if event.type == pg.MOUSEBUTTONDOWN:
                 if pg.mouse.get_pressed()[0]:
                     x, y = pg.mouse.get_pos()
-                    triangulation.add_point(Point(x, y), algorithm_selection)
+                    add_point_to_triangulation(triangulation, Point(x, y), algorithm_selection)
             if event.type == pg.QUIT or event.type == pg.KEYDOWN:
                 run = False
                 if event.type == pg.KEYDOWN and event.key != pg.K_ESCAPE:
@@ -36,6 +37,9 @@ def main(window, config, algorithm_selection):
 
 
 if __name__ == '__main__':
+    logger = logging.getLogger(__name__)
+    logging.basicConfig(format = '\n%(asctime)s %(module)s %(levelname)s: %(message)s', datefmt = '%I:%M:%S %p', level = logging.INFO)
+
     with path.CONFIG.open() as f:
         config = json.load(f)
     pg.init()
