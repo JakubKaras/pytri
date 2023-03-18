@@ -14,6 +14,6 @@ def basic_triangulation_dataclass_example():
     logging.getLogger().info(f"Point triplets:\n{triangulation.triangles}")
 
 if __name__ == '__main__':
-    # basic_triangulation_dataclass_example()
-    print(is_point_in_circumcircle([Point(1, 1), Point(2, 3), Point(3, 1)], Point(2, 2)))
-    print(is_point_in_triangle([Point(1, 1), Point(3, 1), Point(2, 3)], Point(2, 2)))
+    basic_triangulation_dataclass_example()
+    logging.getLogger().info(is_point_in_circumcircle([Point(1, 1), Point(2, 3), Point(3, 1)], Point(2, 2)))
+    logging.getLogger().info(is_point_in_triangle([Point(1, 1), Point(3, 1), Point(2, 3)], Point(2, 2)))
