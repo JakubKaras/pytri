@@ -8,11 +8,14 @@ class AlgorithmEnum(enum.Enum):
     INCREMENTAL = 'Incremental'
 
 def add_point_to_triangulation(triangulation: Triangulation, point: Point, triangulation_algorithm: AlgorithmEnum, min_distance = 20):
+    new_points = triangulation.points.copy()
+    new_triangles = triangulation.point_triplets.copy()
     if triangulation.distance_point_to_triangulation(point) >= min_distance:
-        triangulation.points.append(point)
-        triangulation.point_triplets = compute_triangulation(triangulation, triangulation_algorithm)
+        new_points.append(point)
+        new_triangles = compute_triangles(Triangulation(new_points, new_triangles), triangulation_algorithm)
+    return Triangulation(new_points, new_triangles)
 
-def compute_triangulation(triangulation: Triangulation, triangulation_algorithm: AlgorithmEnum) -> list[Triangle]:
+def compute_triangles(triangulation: Triangulation, triangulation_algorithm: AlgorithmEnum) -> list[Triangle]:
     if len(triangulation.points) < 3:
         return []
     if len(triangulation.points) == 3:

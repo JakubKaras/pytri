@@ -28,7 +28,7 @@ def main(window, config, algorithm_selection):
             if event.type == pg.MOUSEBUTTONDOWN:
                 if pg.mouse.get_pressed()[0]:
                     x, y = pg.mouse.get_pos()
-                    add_point_to_triangulation(triangulation, Point(x, y), algorithm_selection)
+                    triangulation = add_point_to_triangulation(triangulation, Point(x, y), algorithm_selection)
             if event.type == pg.QUIT or event.type == pg.KEYDOWN:
                 run = False
                 if event.type == pg.KEYDOWN and event.key != pg.K_ESCAPE:
