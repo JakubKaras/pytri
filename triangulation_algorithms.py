@@ -1,8 +1,7 @@
 import enum
 import logging
 import numpy as np
-from geometric_objects import Triangulation, Triangle, Point, points_to_numpy_array, triangle_area
-# from incremental_delauney import incremental_delauney_algorithm
+from geometric_objects import Triangulation, Triangle, Point, points_to_numpy_array, is_point_in_triangle 
 
 
 class AlgorithmEnum(enum.Enum):
@@ -30,10 +29,24 @@ def compute_triangles(triangulation: Triangulation, triangulation_algorithm: Alg
 
 def incremental_delauney_algorithm(triangulation: Triangulation) -> list[Triangle]:
     logging.getLogger().info("Incremental triangulation algorithm is not implemented yet.")
+    # add triangle containing all points
     expanded_triangulation = expand_triangulation(triangulation)
-    return triangulation.triangles
+    not_added_points = [x for x in range(len(triangulation.points))]
+    while len(not_added_points) > 0:
+        # choose random point to be added to triangulation
+        rnd_index = np.random.choice(len(not_added_points))
+        adding_point_at_index = not_added_points[rnd_index]
+        # find triangle containing this point
+        triangle_index = [is_point_in_triangle([expanded_triangulation.points[i] for i in triangle.to_list()], expanded_triangulation.points[adding_point_at_index]) for triangle in expanded_triangulation.triangles].index(True)
+        # create lines to vertices of the triangle from the point
+        # check circumcircles
+        # delete from `not_added_points`
+        del not_added_points[rnd_index]
+    # remove triangles containing the big triangle
+    return triangulation.triangles # TODO return correct triangles
 
 def expand_triangulation(triangulation: Triangulation) -> Triangulation:
+    '''Adds a triangle containing all points in `triangulation`.'''
     vertices_matrix = points_to_numpy_array(triangulation.points)
     max_coordinate_values = np.max(vertices_matrix, axis=0)
     outer_vertices = [
