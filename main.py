@@ -32,7 +32,7 @@ def main(window, config, algorithm_selection):
                 if pg.mouse.get_pressed()[0]:
                     x, y = pg.mouse.get_pos()
                     triangulation.add_point(Point(x, y))
-                    print(triangulation.points)
+                    # TODO recalculate the triangles
             if event.type == pg.QUIT or event.type == pg.KEYDOWN:
                 run = False
                 if event.type == pg.KEYDOWN and event.key != pg.K_ESCAPE:
