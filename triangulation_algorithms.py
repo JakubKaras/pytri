@@ -9,7 +9,7 @@ class AlgorithmEnum(enum.Enum):
 
 def add_point_to_triangulation(triangulation: Triangulation, point: Point, triangulation_algorithm: AlgorithmEnum, min_distance = 20):
     new_points = triangulation.points.copy()
-    new_triangles = triangulation.point_triplets.copy()
+    new_triangles = triangulation.triangles.copy()
     if triangulation.distance_point_to_triangulation(point) >= min_distance:
         new_points.append(point)
         new_triangles = compute_triangles(Triangulation(new_points, new_triangles), triangulation_algorithm)
@@ -28,8 +28,8 @@ def compute_triangles(triangulation: Triangulation, triangulation_algorithm: Alg
 
 def incremental_delauney_algorithm(triangulation: Triangulation) -> list[Triangle]:
     logging.getLogger().info("Incremental triangulation algorithm is not implemented yet.")
-    return triangulation.point_triplets
+    return triangulation.triangles
 
 def flipping_delauney_algorithm(triangulation: Triangulation) -> list[Triangle]:
     logging.getLogger().info("Flipping triangulation algorithm is not implemented yet.")
-    return triangulation.point_triplets
+    return triangulation.triangles

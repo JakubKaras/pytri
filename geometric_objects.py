@@ -29,7 +29,7 @@ class Triangle:
 @dataclass
 class Triangulation:
     points:  list[Point]
-    point_triplets: list[Triangle]
+    triangles: list[Triangle]
 
     def distance_point_to_triangulation(self, outside_point: Point):
         '''Take the minimal distance from distances to all points of triangulation to `outside_point`.'''
