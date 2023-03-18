@@ -30,7 +30,9 @@ def main(window, config, algorithm_selection):
         for event in pg.event.get():
             if event.type == pg.MOUSEBUTTONDOWN:
                 if pg.mouse.get_pressed()[0]:
-                    pass
+                    x, y = pg.mouse.get_pos()
+                    triangulation.add_point(Point(x, y))
+                    print(triangulation.points)
             if event.type == pg.QUIT or event.type == pg.KEYDOWN:
                 run = False
                 if event.type == pg.KEYDOWN and event.key != pg.K_ESCAPE:
@@ -42,10 +44,9 @@ if __name__ == '__main__':
     with path.CONFIG.open() as f:
         config = json.load(f)
     pg.init()
-    WINDOW = pg.display.set_mode((config['window']['width'], config['window']['height']))
-
+    window = pg.display.set_mode((config['window']['width'], config['window']['height']))
     menu = pg_menu.Menu('Select the triangulation algorithm', config['window']['width'], config['window']['height'], theme=pg_menu.themes.THEME_BLUE)
     selection = menu.add.selector('Triangulation algorithm :', [('Flipping', AlgorithmEnum.FLIPPING), ('Incremental', AlgorithmEnum.INCREMENTAL)])
-    menu.add.button('Run', lambda: main(WINDOW, config, selection.get_value()[0]))
+    menu.add.button('Run', lambda: main(window, config, selection.get_value()[0]))
     menu.add.button('Quit', pg_menu.events.EXIT)
-    menu.mainloop(WINDOW)
+    menu.mainloop(window)
