@@ -13,6 +13,10 @@ def add_point_to_triangulation(triangulation: Triangulation, point: Point, trian
         triangulation.point_triplets = compute_triangulation(triangulation, triangulation_algorithm)
 
 def compute_triangulation(triangulation: Triangulation, triangulation_algorithm: AlgorithmEnum) -> list[Triangle]:
+    if len(triangulation.points) < 3:
+        return []
+    if len(triangulation.points) == 3:
+        return [Triangle(0, 1, 2)]
     if triangulation_algorithm == AlgorithmEnum.FLIPPING:
         return flipping_delauney_algorithm(triangulation)
     if triangulation_algorithm == AlgorithmEnum.INCREMENTAL:
