@@ -3,9 +3,8 @@ import pygame_menu as pg_menu
 import enum
 import json
 import path
-from geometric_objects import Triangulation, Point, Triangle
+from geometric_objects import Triangulation, Point, Triangle, AlgorithmEnum
 from visualization import draw_triangles, draw_text
-from triangulation_algorithms import AlgorithmEnum
 
 def set_algorithm(algorithm_selection, selection_id):
     print(algorithm_selection, selection_id)

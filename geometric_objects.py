@@ -1,7 +1,14 @@
 '''Geometric objects and their manipulation.'''
 from dataclasses import dataclass
 import numpy as np
-from triangulation_algorithms import AlgorithmEnum, incremental_delauney_algorithm, flipping_delauney_algorithm
+import enum
+import logging
+
+
+class AlgorithmEnum(enum.Enum):
+    FLIPPING = 'Flipping'
+    INCREMENTAL = 'Incremental'
+
 
 @dataclass
 class Point:
@@ -59,3 +66,11 @@ def compute_triangulation(triangulation: Triangulation, triangulation_algorithm:
         return flipping_delauney_algorithm(triangulation)
     if triangulation_algorithm == AlgorithmEnum.INCREMENTAL:
         return incremental_delauney_algorithm(triangulation)
+
+def incremental_delauney_algorithm(triangulation: Triangulation) -> list[Triangle]:
+    logging.getLogger().info("Incremental triangulation algorithm is not implemented yet.")
+    return triangulation.point_triplets
+
+def flipping_delauney_algorithm(triangulation: Triangulation) -> list[Triangle]:
+    logging.getLogger().info("Flipping triangulation algorithm is not implemented yet.")
+    return triangulation.point_triplets
