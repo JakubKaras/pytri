@@ -8,5 +8,6 @@
     "window": {
         "height": 800,
         "width": 1000
-    }
+    },
+    "use_dummy_initial_triangulation": true
 }
