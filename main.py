@@ -7,9 +7,6 @@ from geometric_objects import Triangulation, Point, Triangle
 from triangulation_algorithms import AlgorithmEnum, add_point_to_triangulation
 from visualization import draw_triangles, draw_text
 
-def set_algorithm(algorithm_selection, selection_id):
-    print(algorithm_selection, selection_id)
-
 def main(window, config, algorithm_selection):
     window.fill(pg_menu.themes.THEME_BLUE.background_color)
     pg.display.set_caption("Delauney Triangulation")
