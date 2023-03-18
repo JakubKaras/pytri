@@ -1,0 +1,12 @@
+{
+    "fps": 60,
+    "font": {
+        "name": "arial",
+        "size": 20
+    },
+    "text_colour": [150, 150, 150],
+    "window": {
+        "height": 800,
+        "width": 1000
+    }
+}

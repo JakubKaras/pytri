@@ -1,6 +1,8 @@
 import pygame as pg
 import pygame_menu as pg_menu
 import enum
+import json
+import path
 from geometric_objects import Triangulation, Point, Triangle
 from visualization import draw_triangles, draw_text
 
@@ -11,7 +13,7 @@ class AlgorithmEnum(enum.Enum):
 def set_algorithm(algorithm_selection, selection_id):
     print(algorithm_selection, selection_id)
 
-def main(window, algorithm_selection):
+def main(window, config, algorithm_selection):
     window.fill(pg_menu.themes.THEME_BLUE.background_color)
     pg.display.set_caption("Delauney Triangulation")
     CLOCK = pg.time.Clock()
@@ -19,10 +21,10 @@ def main(window, algorithm_selection):
 
     run = True
     while run:
-        CLOCK.tick(60)
+        CLOCK.tick(config['fps'])
 
         draw_triangles(window, triangulation)
-        draw_text(window, "Press ESCAPE to return to menu", pg.font.SysFont('arial', 20), (150, 150, 150), 375, 0)
+        draw_text(window, "Press ESCAPE to return to menu", pg.font.SysFont(config['font']['name'], config['font']['size']), config['text_colour'], 375, 0)
         pg.display.update()
 
         for event in pg.event.get():
@@ -37,11 +39,13 @@ def main(window, algorithm_selection):
 
 
 if __name__ == '__main__':
+    with path.CONFIG.open() as f:
+        config = json.load(f)
     pg.init()
-    WINDOW = pg.display.set_mode((1000, 800))
+    WINDOW = pg.display.set_mode((config['window']['width'], config['window']['height']))
 
-    menu = pg_menu.Menu('Select the triangulation algorithm', 1000, 800, theme=pg_menu.themes.THEME_BLUE)
+    menu = pg_menu.Menu('Select the triangulation algorithm', config['window']['width'], config['window']['height'], theme=pg_menu.themes.THEME_BLUE)
     selection = menu.add.selector('Triangulation algorithm :', [('Flipping', AlgorithmEnum.FLIPPING), ('Incremental', AlgorithmEnum.INCREMENTAL)])
-    menu.add.button('Run', lambda: main(WINDOW, selection.get_value()[0]))
+    menu.add.button('Run', lambda: main(WINDOW, config, selection.get_value()[0]))
     menu.add.button('Quit', pg_menu.events.EXIT)
     menu.mainloop(WINDOW)
