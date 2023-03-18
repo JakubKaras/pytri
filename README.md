@@ -10,6 +10,13 @@ conda activate pytri
 ```
 This way you ensure that all important packages are installed.
 
+# How to run
+To run the window application just run the `main.py` file e.g.,
+```bash
+cd pytri
+python main.py
+```
+
 # Examples
 In the file `examples.py` are couple of runnable examples. Run those any way you see fit, for example by this command:
 ```bash
