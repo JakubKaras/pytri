@@ -7,11 +7,24 @@ class Point:
     x: float
     y: float
 
+    def __eq__(self, other):
+        return (
+            self.__class__ is other.__class__
+            and self.x == other.x
+            and self.y == other.y
+        )
+
+    def to_tuple(self):
+        return self.x, self.y
+
 @dataclass
 class Triangle:
     point_index1: int
     point_index2: int
     point_index3: int
+
+    def to_list(self):
+        return [self.point_index1, self.point_index2, self.point_index3]
 
 @dataclass
 class Triangulation:

@@ -3,3 +3,6 @@ channels:
   - defaults
 dependencies:
   - numpy
+  - pip
+  - pip:
+    - pygame
