@@ -2,6 +2,7 @@ import enum
 import logging
 import numpy as np
 from geometric_objects import Triangulation, Triangle, Point, points_to_numpy_array, triangle_area
+# from incremental_delauney import incremental_delauney_algorithm
 
 
 class AlgorithmEnum(enum.Enum):
@@ -27,24 +28,22 @@ def compute_triangles(triangulation: Triangulation, triangulation_algorithm: Alg
         return incremental_delauney_algorithm(triangulation)
     raise ValueError(f"{triangulation_algorithm} is not supported.")
 
-def is_point_in_circumcircle(vertices: list[Point], checked_point: Point) -> bool:
-    circumcircle_matrix = np.ones((3, 3))
-    vertices_matrix = np.ones((3, 3))
-    vertices_matrix[:, 1:] = points_to_numpy_array(vertices)
-    circumcircle_matrix[:, :2] = vertices_matrix[:, 1:] - points_to_numpy_array([checked_point])
-    circumcircle_matrix[:, -1] = circumcircle_matrix[:, 0] ** 2 + circumcircle_matrix[:, 1] ** 2
-    return -1 * np.linalg.det(vertices_matrix) * np.linalg.det(circumcircle_matrix) < 0
-
-def is_point_in_triangle(vertices: list[Point], checked_point: Point) -> bool:
-    area_abc = triangle_area(vertices)
-    area_abd = triangle_area([vertices[0], vertices[1], checked_point])
-    area_acd = triangle_area([vertices[0], vertices[2], checked_point])
-    area_bcd = triangle_area([vertices[1], vertices[2], checked_point])
-    return area_abc == area_abd + area_acd + area_bcd
-
 def incremental_delauney_algorithm(triangulation: Triangulation) -> list[Triangle]:
     logging.getLogger().info("Incremental triangulation algorithm is not implemented yet.")
+    expanded_triangulation = expand_triangulation(triangulation)
     return triangulation.triangles
+
+def expand_triangulation(triangulation: Triangulation) -> Triangulation:
+    vertices_matrix = points_to_numpy_array(triangulation.points)
+    max_coordinate_values = np.max(vertices_matrix, axis=0)
+    outer_vertices = [
+        Point(max_coordinate_values[0] + 150, max_coordinate_values[1] + 150),
+        Point(max_coordinate_values[0] + 150, -max_coordinate_values[1] - 300),
+        Point(-max_coordinate_values[0] - 300, max_coordinate_values[1] + 150)
+    ]
+    num_of_points = vertices_matrix.shape[0] + 3
+    expanded_triangulation = Triangulation([*triangulation.points, *outer_vertices], [Triangle(num_of_points - 3, num_of_points - 2, num_of_points - 1)])
+    return expanded_triangulation
 
 def flipping_delauney_algorithm(triangulation: Triangulation) -> list[Triangle]:
     logging.getLogger().info("Flipping triangulation algorithm is not implemented yet.")

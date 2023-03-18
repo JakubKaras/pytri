@@ -40,6 +40,21 @@ class Triangulation:
                 min_distance = distance
         return min_distance
 
+def is_point_in_circumcircle(vertices: list[Point], checked_point: Point) -> bool:
+    circumcircle_matrix = np.ones((3, 3))
+    vertices_matrix = np.ones((3, 3))
+    vertices_matrix[:, 1:] = points_to_numpy_array(vertices)
+    circumcircle_matrix[:, :2] = vertices_matrix[:, 1:] - points_to_numpy_array([checked_point])
+    circumcircle_matrix[:, -1] = circumcircle_matrix[:, 0] ** 2 + circumcircle_matrix[:, 1] ** 2
+    return -1 * np.linalg.det(vertices_matrix) * np.linalg.det(circumcircle_matrix) < 0
+
+def is_point_in_triangle(vertices: list[Point], checked_point: Point) -> bool:
+    area_abc = triangle_area(vertices)
+    area_abd = triangle_area([vertices[0], vertices[1], checked_point])
+    area_acd = triangle_area([vertices[0], vertices[2], checked_point])
+    area_bcd = triangle_area([vertices[1], vertices[2], checked_point])
+    return area_abc == area_abd + area_acd + area_bcd
+
 def triangle_area(vertices: list[Point]):
     return abs((vertices[0].x * (vertices[1].y - vertices[2].y) + vertices[1].x * (vertices[2].y - vertices[0].y)
                 + vertices[2].x * (vertices[0].y - vertices[1].y)) / 2.0)
