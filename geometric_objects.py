@@ -1,6 +1,7 @@
 '''Geometric objects and their manipulation.'''
 from dataclasses import dataclass
 import numpy as np
+from triangulation_algorithms import AlgorithmEnum, incremental_delauney_algorithm, flipping_delauney_algorithm
 
 @dataclass
 class Point:
@@ -31,9 +32,10 @@ class Triangulation:
     points:  list[Point]
     point_triplets: list[Triangle]
 
-    def add_point(self, point: Point, min_distance = 20):
+    def add_point(self, point: Point, triangulation_algorithm: AlgorithmEnum, min_distance = 20):
         if self.distance_point_to_triangulation(point) >= min_distance:
             self.points.append(point)
+            self.point_triplets = compute_triangulation(self, triangulation_algorithm)
 
     def distance_point_to_triangulation(self, outside_point: Point):
         '''Take the minimal distance from distances to all points of triangulation to `outside_point`.'''
@@ -51,3 +53,9 @@ def points_to_numpy_array(points: list[Point]) -> np.array:
     x_coordinates = [point.x for point in points]
     y_coordinates = [point.y for point in points]
     return np.array([x_coordinates, y_coordinates]).T
+
+def compute_triangulation(triangulation: Triangulation, triangulation_algorithm: AlgorithmEnum) -> list[Triangle]:
+    if triangulation_algorithm == AlgorithmEnum.FLIPPING:
+        return flipping_delauney_algorithm(triangulation)
+    if triangulation_algorithm == AlgorithmEnum.INCREMENTAL:
+        return incremental_delauney_algorithm(triangulation)

@@ -5,10 +5,7 @@ import json
 import path
 from geometric_objects import Triangulation, Point, Triangle
 from visualization import draw_triangles, draw_text
-
-class AlgorithmEnum(enum.Enum):
-    FLIPPING = 0
-    INCREMENTAL = 1
+from triangulation_algorithms import AlgorithmEnum
 
 def set_algorithm(algorithm_selection, selection_id):
     print(algorithm_selection, selection_id)
@@ -31,8 +28,7 @@ def main(window, config, algorithm_selection):
             if event.type == pg.MOUSEBUTTONDOWN:
                 if pg.mouse.get_pressed()[0]:
                     x, y = pg.mouse.get_pos()
-                    triangulation.add_point(Point(x, y))
-                    # TODO recalculate the triangles
+                    triangulation.add_point(Point(x, y), algorithm_selection)
             if event.type == pg.QUIT or event.type == pg.KEYDOWN:
                 run = False
                 if event.type == pg.KEYDOWN and event.key != pg.K_ESCAPE:
@@ -46,7 +42,7 @@ if __name__ == '__main__':
     pg.init()
     window = pg.display.set_mode((config['window']['width'], config['window']['height']))
     menu = pg_menu.Menu('Select the triangulation algorithm', config['window']['width'], config['window']['height'], theme=pg_menu.themes.THEME_BLUE)
-    selection = menu.add.selector('Triangulation algorithm :', [('Flipping', AlgorithmEnum.FLIPPING), ('Incremental', AlgorithmEnum.INCREMENTAL)])
-    menu.add.button('Run', lambda: main(window, config, selection.get_value()[0]))
+    selection = menu.add.selector('Triangulation algorithm :', [(AlgorithmEnum.FLIPPING.value, AlgorithmEnum.FLIPPING), (AlgorithmEnum.INCREMENTAL.value, AlgorithmEnum.INCREMENTAL)])
+    menu.add.button('Run', lambda: main(window, config, selection.get_value()[0][1]))
     menu.add.button('Quit', pg_menu.events.EXIT)
     menu.mainloop(window)
