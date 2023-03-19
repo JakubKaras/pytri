@@ -1,6 +1,5 @@
 import logging
-from geometric_objects import Triangulation, Point, Triangle, points_to_numpy_array
-from triangulation_algorithms import is_point_in_circumcircle, is_point_in_triangle
+from geometric_objects import Triangulation, Point, Triangle, points_to_numpy_array, is_point_in_circumcircle, is_point_in_triangle
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(format = '\n%(asctime)s %(module)s %(levelname)s: %(message)s', datefmt = '%I:%M:%S %p', level = logging.INFO)
