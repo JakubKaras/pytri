@@ -37,12 +37,30 @@ def incremental_delauney_algorithm(triangulation: Triangulation) -> list[Triangl
         rnd_index = np.random.choice(len(not_added_points))
         adding_point_at_index = not_added_points[rnd_index]
         # find triangle containing this point
-        triangle_index = [is_point_in_triangle([expanded_triangulation.points[i] for i in triangle.to_list()], expanded_triangulation.points[adding_point_at_index]) for triangle in expanded_triangulation.triangles].index(True)
+        triangle_index = [
+                is_point_in_triangle(
+                [expanded_triangulation.points[i] for i in triangle.to_list()],
+                expanded_triangulation.points[adding_point_at_index]
+            ) for triangle in expanded_triangulation.triangles
+        ].index(True)
+        triangle_vertices_indices = expanded_triangulation.triangles[triangle_index]
         # create lines to vertices of the triangle from the point
+        expanded_triangulation.triangles.append(Triangle(triangle_vertices_indices.point_index1, triangle_vertices_indices.point_index2, adding_point_at_index))
+        expanded_triangulation.triangles.append(Triangle(triangle_vertices_indices.point_index1, triangle_vertices_indices.point_index3, adding_point_at_index))
+        expanded_triangulation.triangles.append(Triangle(triangle_vertices_indices.point_index2, triangle_vertices_indices.point_index3, adding_point_at_index))
+        # delete the triangle containing the point in its interior
+        del expanded_triangulation.triangles[triangle_index]
         # check circumcircles
         # delete from `not_added_points`
         del not_added_points[rnd_index]
     # remove triangles containing the big triangle
+    remove_triangles_at = []
+    for i, triangle in enumerate(expanded_triangulation.triangles):
+        for outer_point in range(len(expanded_triangulation.points) - 3, len(expanded_triangulation.points)):
+            if outer_point in triangle.to_list():
+                remove_triangles_at.append(i)
+    for index in sorted(set(remove_triangles_at), reverse=True):
+        del expanded_triangulation.triangles[index]
     return triangulation.triangles # TODO return correct triangles
 
 def expand_triangulation(triangulation: Triangulation) -> Triangulation:
