@@ -53,17 +53,24 @@ def incremental_delauney_algorithm(triangulation: Triangulation) -> list[Triangl
         # delete the triangle containing the point in its interior
         del expanded_triangulation.triangles[triangle_index]
         # check circumcircles
+        triangles_to_check = [expanded_triangulation.triangles[-3], expanded_triangulation.triangles[-2], expanded_triangulation.triangles[-1]]
+        for triangle in triangles_to_check:
+            expanded_triangulation.check_circumcircle_of_triangle(triangle, adding_point_at_index)
         # delete from `not_added_points`
         del not_added_points[rnd_index]
-    # remove triangles containing the big triangle
+    # remove triangles containing at least two vetrices of the big triangle
+    triangles = remove_expansion_triangles(expanded_triangulation)
+    return triangles
+
+def remove_expansion_triangles(triangulation: Triangulation) -> list[Triangle]:
     remove_triangles_at = []
-    for i, triangle in enumerate(expanded_triangulation.triangles):
-        for outer_point in range(len(expanded_triangulation.points) - 3, len(expanded_triangulation.points)):
-            if outer_point in triangle.to_list():
-                remove_triangles_at.append(i)
+    outer_points = set([x for x in range(len(triangulation.points) - 3, len(triangulation.points))])
+    for i, triangle in enumerate(triangulation.triangles):
+        if len(outer_points.intersection(triangle.to_list())) >= 2:
+            remove_triangles_at.append(i)
     for index in sorted(set(remove_triangles_at), reverse=True):
-        del expanded_triangulation.triangles[index]
-    return triangulation.triangles # TODO return correct triangles
+        del triangulation.triangles[index]
+    return triangulation.triangles
 
 def expand_triangulation(triangulation: Triangulation) -> Triangulation:
     '''Adds a triangle containing all points in `triangulation`.'''
