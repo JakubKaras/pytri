@@ -3,7 +3,6 @@ import numpy as np
 from geometric_objects import Triangulation, Triangle, Point, is_point_in_triangle, points_to_numpy_array
 
 def incremental_delauney_algorithm(triangulation: Triangulation) -> list[Triangle]:
-    logging.getLogger().info("Incremental triangulation algorithm is not implemented yet.")
     # add triangle containing all points
     expanded_triangulation = expand_triangulation(triangulation)
     not_added_points = [x for x in range(len(triangulation.points))]
