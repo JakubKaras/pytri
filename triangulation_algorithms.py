@@ -1,6 +1,7 @@
 import enum
 import logging
 from geometric_objects import Triangulation, Triangle, Point
+from incremental_delauney_algorithm import incremental_delauney_algorithm
 
 
 class AlgorithmEnum(enum.Enum):
@@ -27,10 +28,6 @@ def compute_triangles(triangulation: Triangulation, triangulation_algorithm: Alg
     if triangulation_algorithm == AlgorithmEnum.INCREMENTAL:
         return incremental_delauney_algorithm(triangulation)
     raise ValueError(f"{triangulation_algorithm} is not supported.")
-
-def incremental_delauney_algorithm(triangulation: Triangulation) -> list[Triangle]:
-    logging.getLogger().info("Incremental triangulation algorithm is not implemented yet.")
-    return triangulation.triangles
 
 def flipping_delauney_algorithm(triangulation: Triangulation) -> list[Triangle]:
     logging.getLogger().info("Flipping triangulation algorithm is not implemented yet.")
