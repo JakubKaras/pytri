@@ -8,7 +8,6 @@ from triangulation_algorithms import AlgorithmEnum, add_point_to_triangulation
 from visualization import draw_triangles, draw_text
 
 def main(window, config, algorithm_selection):
-    window.fill(pg_menu.themes.THEME_BLUE.background_color)
     pg.display.set_caption("Delauney Triangulation")
     CLOCK = pg.time.Clock()
     if config['use_dummy_initial_triangulation']:
@@ -19,7 +18,7 @@ def main(window, config, algorithm_selection):
     run = True
     while run:
         CLOCK.tick(config['fps'])
-
+        window.fill(pg_menu.themes.THEME_BLUE.background_color)
         draw_triangles(window, triangulation)
         draw_text(window, "Press ESCAPE to return to menu", pg.font.SysFont(config['font']['name'], config['font']['size']), config['text_colour'], 375, 0)
         pg.display.update()
