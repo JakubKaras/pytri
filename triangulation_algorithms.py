@@ -18,8 +18,10 @@ def add_point_to_triangulation(triangulation: Triangulation, point: Point, trian
 
 def compute_triangles(triangulation: Triangulation, triangulation_algorithm: AlgorithmEnum) -> list[Triangle]:
     if len(triangulation.points) < 3:
+        logging.getLogger().info(f"There are not three points, cannot create triangulation.")
         return []
     if len(triangulation.points) == 3:
+        logging.getLogger().info(f"There are exactly three points, the triangulation is trivial.")
         return [Triangle(0, 1, 2)]
     if triangulation_algorithm == AlgorithmEnum.FLIPPING:
         return flipping_delauney_algorithm(triangulation)
