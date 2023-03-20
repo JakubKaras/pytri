@@ -9,7 +9,7 @@ from convex_hull_triangulation import Convex_hull_triangulation
 class AlgorithmEnum(enum.Enum):
     FLIPPING = 'Flipping'
     INCREMENTAL = 'Incremental'
-    COVEX_HULL = 'Convex_hull'
+    CONVEX_HULL = 'Convex hull'
 
 def add_point_to_triangulation(triangulation: Triangulation, point: Point, triangulation_algorithm: AlgorithmEnum, min_distance = 20):
     new_points = triangulation.points.copy()
@@ -28,7 +28,7 @@ def compute_triangles(triangulation: Triangulation, triangulation_algorithm: Alg
         return [Triangle(0, 1, 2)]
     if triangulation_algorithm == AlgorithmEnum.FLIPPING:
         return Flipping_delauney_algorithm().calculate_triangulation(triangulation)
-    if triangulation_algorithm == AlgorithmEnum.COVEX_HULL:
+    if triangulation_algorithm == AlgorithmEnum.CONVEX_HULL:
         return Convex_hull_triangulation().calculate_triangulation(triangulation)
     if triangulation_algorithm == AlgorithmEnum.INCREMENTAL:
         return incremental_delauney_algorithm(triangulation)

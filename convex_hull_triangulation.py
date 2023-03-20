@@ -1,4 +1,4 @@
-from geometric_objects import Triangulation, Point, Triangle
+from geometric_objects import Triangulation, Point, Triangle, points_to_numpy_array
 from scipy.spatial import ConvexHull
 from shapely.geometry import Point as PointShapely
 from shapely.geometry.polygon import Polygon
@@ -42,7 +42,7 @@ class Convex_hull_triangulation:
         rest_indices = [item for item in range(len(triangulation.points)) if item not in convex_hull.vertices]
         return self.__calculate_complete_triangulation(initial_triangulation, triangulation.points, rest_indices)
     def __calculate_convex_hull(self, points:list[Point]) -> ConvexHull:
-        return ConvexHull(Point_list_to_npArray_converter().list_of_points_to_nparray(points))
+        return ConvexHull(points_to_numpy_array(points))
     def __get_initial_triangulation(self, convex_hull: ConvexHull):
         result = [] 
         for i in range(1, len(convex_hull.vertices) - 1):
