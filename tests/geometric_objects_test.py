@@ -1,6 +1,6 @@
 import unittest as ut
 import numpy as np
-from geometric_objects import Point, Triangle, Triangulation, points_to_numpy_array, distance_point_to_point
+from geometric_objects import Point, Triangle, Triangulation, points_to_numpy_array, distance_point_to_point, triangle_area, is_point_in_triangle, is_point_in_circumcircle
 
 
 class TestPointClass(ut.TestCase):
@@ -81,3 +81,39 @@ class TestDistances(ut.TestCase):
 
     def test_distance_to_concrete_point(self):
         self.assertEqual(self.triangulation.distance_point_to_triangulation(self.outside_point), np.sqrt(2))
+
+class TestTriangleArea(ut.TestCase):
+    def setUp(self) -> None:
+        self.point_1 = Point(0, 0)
+        self.point_2 = Point(0, 1)
+        self.point_3 = Point(1, 0)
+        self.point_4 = Point(-1, 0)
+        self.point_5 = Point(0, -1)
+
+    def test_area_of_triangle_in_first_quadrant(self):
+        self.assertEqual(triangle_area([self.point_1, self.point_2, self.point_3]), 0.5)
+
+    def test_area_doesnt_depend_on_point_permutation(self):
+        self.assertEqual(triangle_area([self.point_1, self.point_2, self.point_3]), triangle_area([self.point_3, self.point_1, self.point_2]))
+
+    def test_area_of_triangle_in_third_quadrant(self):
+        self.assertEqual(triangle_area([self.point_1, self.point_4, self.point_5]), 0.5)
+
+class TestPositionChecks(ut.TestCase):
+    def setUp(self) -> None:
+        self.vertices = [Point(-1, -1), Point(1, -1), Point(0, 2)]
+        self.point_inside = Point(0, 0)
+        self.point_only_in_circle = Point(1, 0)
+        self.point_outside = Point(2, 0)
+
+    def test_that_inside_point_is_in_triangle_and_in_circle(self):
+        self.assertTrue(is_point_in_triangle(self.vertices, self.point_inside))
+        self.assertTrue(is_point_in_circumcircle(self.vertices, self.point_inside))
+
+    def test_that_point_is_in_triangle_and_not_in_circle(self):
+        self.assertFalse(is_point_in_triangle(self.vertices, self.point_only_in_circle))
+        self.assertTrue(is_point_in_circumcircle(self.vertices, self.point_only_in_circle))
+
+    def test_that_outside_point_is_in_not_triangle_and_not_in_circle(self):
+        self.assertFalse(is_point_in_triangle(self.vertices, self.point_outside))
+        self.assertFalse(is_point_in_circumcircle(self.vertices, self.point_outside))

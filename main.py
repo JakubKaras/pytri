@@ -4,7 +4,7 @@ import logging
 import json
 import path
 from geometric_objects import Triangulation, Point, Triangle
-from triangulation_algorithms import AlgorithmEnum, add_point_to_triangulation
+from point_addition import AlgorithmEnum, add_point_to_triangulation
 from visualization import draw_triangles, draw_text
 
 def main(window, config, algorithm_selection):
