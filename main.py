@@ -44,7 +44,7 @@ if __name__ == '__main__':
     pg.init()
     window = pg.display.set_mode((config['window']['width'], config['window']['height']))
     menu = pg_menu.Menu('Select the triangulation algorithm', config['window']['width'], config['window']['height'], theme=pg_menu.themes.THEME_BLUE)
-    selection = menu.add.selector('Triangulation algorithm :', [(AlgorithmEnum.FLIPPING.value, AlgorithmEnum.FLIPPING), (AlgorithmEnum.INCREMENTAL.value, AlgorithmEnum.INCREMENTAL)])
+    selection = menu.add.selector('Triangulation algorithm :', [(algorithm.value, algorithm) for algorithm in AlgorithmEnum])
     menu.add.button('Run', lambda: main(window, config, selection.get_value()[0][1]))
     menu.add.button('Quit', pg_menu.events.EXIT)
     menu.mainloop(window)

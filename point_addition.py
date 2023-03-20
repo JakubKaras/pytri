@@ -2,11 +2,14 @@ import enum
 import logging
 from geometric_objects import Triangulation, Triangle, Point
 from incremental_delauney_algorithm import incremental_delauney_algorithm
+from flipping_delauney_algorithm import Flipping_delauney_algorithm
+from convex_hull_triangulation import Convex_hull_triangulation
 
 
 class AlgorithmEnum(enum.Enum):
     FLIPPING = 'Flipping'
     INCREMENTAL = 'Incremental'
+    CONVEX_HULL = 'Convex hull'
 
 def add_point_to_triangulation(triangulation: Triangulation, point: Point, triangulation_algorithm: AlgorithmEnum, min_distance = 20):
     new_points = triangulation.points.copy()
@@ -24,7 +27,9 @@ def compute_triangles(triangulation: Triangulation, triangulation_algorithm: Alg
         logging.getLogger().info(f"There are exactly three points, the triangulation is trivial.")
         return [Triangle(0, 1, 2)]
     if triangulation_algorithm == AlgorithmEnum.FLIPPING:
-        return flipping_delauney_algorithm(triangulation)
+        return Flipping_delauney_algorithm().calculate_triangulation(triangulation)
+    if triangulation_algorithm == AlgorithmEnum.CONVEX_HULL:
+        return Convex_hull_triangulation().calculate_triangulation(triangulation)
     if triangulation_algorithm == AlgorithmEnum.INCREMENTAL:
         return incremental_delauney_algorithm(triangulation)
     raise ValueError(f"{triangulation_algorithm} is not supported.")
