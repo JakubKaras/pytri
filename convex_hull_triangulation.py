@@ -5,32 +5,12 @@ from shapely.geometry.polygon import Polygon
 from dataclasses import dataclass
 import numpy as np
 
-@dataclass
-class Edge:
-    first_index: int
-    second_index: int
-    def __eq__(self, other):
-        return (
-            self.__class__ is other.__class__
-            and self.first_index == other.first_index
-            and self.second_index == other.second_index
-        )
-
-    def to_tuple(self):
-        return self.first_index, self.second_index    
-
-
 class Point_list_to_npArray_converter:
     def list_of_points_to_nparray(self, points: list[Point]):
             array = np.empty([0, 2])
             for point in points:
                 array = np.append(array, [np.array([point.x, point.y])], axis=0)
             return array
-
-
-class Coinciding_triangles_examiner:
-    def get_coinciding_triangles(self, edge: Edge, triangulatinon: list[Triangle]) -> list[Triangle]:
-        return list[Triangle]()
 
 class Triangulation_updater:
     def change_triangulation_according_effected_triangles(self, effected_triangles: list[Triangle], 
