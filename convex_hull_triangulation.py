@@ -36,11 +36,11 @@ class Triangulation_updater:
           
 
 class Convex_hull_triangulation:
-    def calculate_triangulation(self, points: list[Point]):
-        convex_hull = self.__calculate_convex_hull(points)
+    def calculate_triangulation(self, triangulation: Triangulation):
+        convex_hull = self.__calculate_convex_hull(triangulation.points)
         initial_triangulation = self.__get_initial_triangulation(convex_hull)
-        rest_indices = [item for item in range(len(points)) if item not in convex_hull.vertices]
-        return self.__calculate_complete_triangulation(initial_triangulation, points, rest_indices)
+        rest_indices = [item for item in range(len(triangulation.points)) if item not in convex_hull.vertices]
+        return self.__calculate_complete_triangulation(initial_triangulation, triangulation.points, rest_indices)
     def __calculate_convex_hull(self, points:list[Point]) -> ConvexHull:
         return ConvexHull(Point_list_to_npArray_converter().list_of_points_to_nparray(points))
     def __get_initial_triangulation(self, convex_hull: ConvexHull):

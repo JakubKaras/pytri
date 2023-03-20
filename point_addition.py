@@ -29,7 +29,7 @@ def compute_triangles(triangulation: Triangulation, triangulation_algorithm: Alg
     if triangulation_algorithm == AlgorithmEnum.FLIPPING:
         return Flipping_delauney_algorithm().calculate_triangulation(triangulation)
     if triangulation_algorithm == AlgorithmEnum.COVEX_HULL:
-        return Convex_hull_triangulation().calculate_triangulation(triangulation.points)
+        return Convex_hull_triangulation().calculate_triangulation(triangulation)
     if triangulation_algorithm == AlgorithmEnum.INCREMENTAL:
         return incremental_delauney_algorithm(triangulation)
     raise ValueError(f"{triangulation_algorithm} is not supported.")
