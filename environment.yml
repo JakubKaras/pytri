@@ -3,6 +3,8 @@ channels:
   - defaults
 dependencies:
   - numpy
+  - scipy
+  - shapely
   - pip
   - pip:
     - pygame
